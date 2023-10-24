@@ -1,0 +1,32 @@
+long long n,m,k;
+cin>>n>>m>>k;
+long long nn[n],mm[m];
+for(int i=0;i<n;i++){
+    cin>>nn[i];
+}
+for(int j=0;j<m;j++){
+    cin>>mm[j];
+}long long count=0;
+sort(nn,nn+n);
+sort(mm,mm+m);
+long long j=0,i=0;
+while(i<n&&j<m){
+    
+    if(mm[j]-k<=nn[i]&&mm[j]+k>=nn[i]){
+        count++;
+        i++;
+        j++;
+    }
+    else if(mm[j]-k<nn[i]){
+        j++;
+    }
+    else if(mm[j]+k>nn[i]){
+        i++;
+    }
+    else{
+        i++;
+        j++;
+    }
+
+}
+cout<<count<<endl;}
