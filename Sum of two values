@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n,x;
+    cin>>n>>x;
+    vector<pair<int,int>> mp;
+    for(int i=0;i<n;i++){
+        int x;
+        cin>>x;
+        mp.push_back({x,i+1});
+    }
+    sort(mp.begin(),mp.end());
+    int i=0;
+    int j=n-1;
+    bool flag=1;
+    while(i<j){
+        if(mp[i].first+mp[j].first==x){
+            cout<<mp[i].second<<" "<<mp[j].second<<endl;
+            flag=0;
+            break;
+        }
+        else if(mp[i].first+mp[j].first<x){
+            i++;
+        }
+        else{
+            j--;
+        }}
+        if(flag){
+            cout<<"IMPOSSIBLE"<<endl;
+        }
+        
+    }
