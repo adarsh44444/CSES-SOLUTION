@@ -1,28 +1,28 @@
 class Solution {
 public:
-    int splitArray(vector<int>& A, int M) {
-                int low=*max_element(A.begin(),A.end());
-        int high=accumulate(A.begin(),A.end(),0);
-        int mid;
-        int answer=-1e8;
-        int N=A.size();
-        if(M>N) return -1;
+#define ll long long
+    int splitArray(vector<int>& nums, int k) {
+        ll n=nums.size();
+        ll mid;
+        ll low=*max_element(nums.begin(),nums.end());
+        ll high=accumulate(nums.begin(),nums.end(),0ll);
         while(low<=high){
             mid=(low+high)/2;
-            int sum=0;
-            int cnt=1;
-            for(int i=0;i<N;i++){
-                if(sum+A[i]<=mid){
-                    sum+=A[i];
-                }
-                else{
+            ll cnt=1;
+            ll temp=0;
+            for(int i=0;i<n;i++){
+                if(temp+nums[i]>mid){
                     cnt++;
-                    sum=0;
-                    sum=A[i];
+                    temp=0;
                 }
+                temp+=nums[i];
             }
-            if(cnt>M) low=mid+1;
-            else high=mid-1;
+            if(cnt>k){
+                low=mid+1;
+            }
+            else{
+                high=mid-1;
+            }
         }
         return low;
     }
