@@ -1,47 +1,29 @@
 class Solution {
 public:
-    int longestNiceSubarray(vector<int>& nums) {
-        // Binary search for the longest nice subarray length
-        int left = 0, right = nums.size();
-        int result = 1;  // Minimum answer is 1 (as subarrays of length 1 are
-                         // always nice)
-
-        while (left <= right) {
-            int length = left + (right - left) / 2;
-            if (canFormNiceSubarray(length, nums)) {
-                result = length;    // Update the result
-                left = length + 1;  // Try to find a longer subarray
-            } else {
-                right = length - 1;  // Try a shorter length
-            }
+bool check(int mid,vector<int> &nums){
+    if(mid<=1) return true;
+    for(int i=0;i<=nums.size()-mid;i++){
+        int bitm=0;
+        bool corr=true;
+        for(int j=i;j<i+mid;j++){
+            if((bitm&nums[j])!=0){corr=false; break;}
+            else bitm|=nums[j];
         }
-        return result;
+        if(corr) return true;
     }
-
-private:
-    bool canFormNiceSubarray(int length, vector<int>& nums) {
-        if (length <= 1) return true;  // Subarray of length 1 is always nice
-
-        // Try each possible starting position for subarray of given length
-        for (int start = 0; start <= nums.size() - length; ++start) {
-            int bitMask = 0;  // Tracks the bits used in the current subarray
-            bool isNice = true;
-
-            // Check if the subarray starting at 'start' with 'length' elements
-            // is nice
-            for (int pos = start; pos < start + length; ++pos) {
-                // If current number shares any bits with existing mask,
-                // the subarray is not nice
-                if ((bitMask & nums[pos]) != 0) {
-                    isNice = false;
-                    break;
-                }
-                bitMask |= nums[pos];  // Add current number's bits to the mask
+    return false;
+}
+    int longestNiceSubarray(vector<int>& nums) {
+        int n=nums.size();
+        int low=1;
+        int high=n;
+        while(low<=high){
+            int mid=(low+high)/2;
+            if(check(mid,nums)){
+                low=mid+1;
             }
-
-            if (isNice)
-                return true;  // Found a nice subarray of the specified length
+            else high=mid-1;
         }
-        return false;  // No nice subarray of the given length exists
+        return low-1;
     }
 };
