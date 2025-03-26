@@ -24,7 +24,7 @@ public:
              sum+=abs(check[i]-temp)/x;
         }
         ans=min(ans,sum);
-        if(mid+1<n){
+        /* if(mid+1<n){
         temp=check[mid+1];}
         sum=0;
         for(int i=0;i<n;i++){
@@ -37,7 +37,7 @@ public:
         for(int i=0;i<n;i++){
              sum+=abs(check[i]-temp)/x;
         }
-        ans=min(ans,sum);
+        ans=min(ans,sum); */
         return ans;
 
     }
