@@ -3,6 +3,7 @@ public:
     vector<int> partitionLabels(string s) {
         unordered_map<char,int> mp;
         int n=s.size();
+        // lauda humesa sala itna ganda time complexity mein kyun banta hai
         for(int i=n-1;i>=0;i--){
             if(mp.find(s[i])==mp.end()){
                 mp[s[i]]=i;
