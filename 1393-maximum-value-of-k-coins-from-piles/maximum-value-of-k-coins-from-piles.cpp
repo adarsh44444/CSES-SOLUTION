@@ -1,21 +1,24 @@
 class Solution {
 public:
-int solve(int index,vector<vector<int>>& piles, int k,vector<vector<int>> &dp){
-    int n=piles.size();
-    if(k==0||index==n){
-        return 0;
+int solve(int i,int k,vector<vector<int>> &piles,vector<vector<int>> &dp){
+    if(i==piles.size()||k<=0) return 0;
+    int nottaken=-1e9,taken=-1e9;
+    if(dp[i][k]!=-1) return dp[i][k];
+    int sum=0;
+    for(int j=0;j<piles[i].size();j++){
+        if(k-(j+1)>=0){
+            sum+=piles[i][j];
+            taken=max({taken,sum+solve(i+1,k-j-1,piles,dp)}); 
+        }
+           
     }
-    if(dp[index][k]!=-1) return dp[index][k];
-    int notpick=solve(index+1,piles,k,dp),curr=0;
-    for(int i=0;i<piles[index].size()&&i<k;i++){
-        curr+=piles[index][i];
-        notpick=max(notpick,solve(index+1,piles,k-i-1,dp)+curr);
-    }
-    return dp[index][k]=notpick;
-    }
+    
+    nottaken=max({nottaken,solve(i+1,k,piles,dp)});
+    return dp[i][k]=max(taken,nottaken);
+}
     int maxValueOfCoins(vector<vector<int>>& piles, int k) {
         int n=piles.size();
         vector<vector<int>> dp(n+1,vector<int>(k+1,-1));
-        return solve(0,piles,k,dp);
+        return solve(0,k,piles,dp);
     }
 };
