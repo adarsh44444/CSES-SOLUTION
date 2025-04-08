@@ -13,9 +13,9 @@ public:
             else{mp[nums[i]]=i;}
         }
         cout<<last<<endl;
-
+        cout<<check+1<<endl;
+        cout<<check<<endl;
         if(check==-1e9) return 0;
         return ceil(((check+1)*1.0)/3);
-
     }
 };
