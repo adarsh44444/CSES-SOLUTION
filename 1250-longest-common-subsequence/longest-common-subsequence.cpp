@@ -1,26 +1,29 @@
 class Solution {
 public:
     int dp[1001][1001];
-    int solve(int i,int j,string &text1,string &text2){
-        if(i==0&&j==0){
-            return text1[0]==text2[0];
-        }
-        if(dp[i+1][j+1]!=-1) return dp[i+1][j+1];
-        int pick=0,notpick=0;
-        if(i>=0&&j>=0&&text1[i]==text2[j]){
-            pick=1+solve(i-1,j-1,text1,text2);
-        }
-        if(i>0){
-        notpick=solve(i-1,j,text1,text2);}
-        if(j>0){
-            notpick=max(notpick,solve(i,j-1,text1,text2));
-        }
-        return dp[i+1][j+1]=max(pick,notpick);
-    }
+
     int longestCommonSubsequence(string text1, string text2) {
-        int n=text1.size();
-        int m=text2.size();
-        memset(dp,-1,sizeof(dp));
-        return solve(n-1,m-1,text1,text2);
+        int n = text1.size();
+        int m = text2.size();
+        
+        // Initialize dp array
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                dp[i][j] = 0;
+            }
+        }
+
+        // Build the dp table
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= m; j++) {
+                if (text1[i - 1] == text2[j - 1]) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+
+        return dp[n][m];
     }
 };
