@@ -1,27 +1,21 @@
 class Solution {
 public:
 #define ll long long
+bool cansolve(vector<int> &piles,ll mid,int h,int n){
+    ll cnt=0;
+    for(int i=0;i<n;i++){
+        cnt+=ceil((1.0*piles[i])/mid);
+    }
+    return cnt<=h;
+}
     int minEatingSpeed(vector<int>& piles, int h) {
-        ll low = 1;
-        ll high = *max_element(piles.begin(), piles.end());
-        ll mid;
-        
-        while (low <= high) {
-            mid = low + (high - low) / 2;
-            ll hr = 0;
-            
-            // Calculate the total hours needed with eating speed 'mid'
-            for (ll i = 0; i < piles.size(); i++) {
-                hr += (piles[i] + mid - 1) / mid; // Optimized ceil operation
-            }
-            
-            if (hr <= h) {
-                high = mid - 1; // Narrow search to the left (lower speeds)
-            } else {
-                low = mid + 1; // Narrow search to the right (higher speeds)
-            }
+        ll n=piles.size();
+        ll low=1,high=1e9;
+        while(low<=high){
+            ll mid=(low+high)/2;
+            if(cansolve(piles,mid,h,n)) high=mid-1;
+            else low=mid+1;
         }
-        
-        return low;
+        return high+1;
     }
 };
