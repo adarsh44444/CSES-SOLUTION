@@ -1,0 +1,22 @@
+class Solution {
+public:
+int dp[100000][2];
+int solve(int index,vector<int>& prices,int buy){
+    if(index==prices.size()){
+        return 0;
+    }
+    if(dp[index][buy]!=-1) return dp[index][buy];
+    int ans=0;
+    if(buy==0){
+        ans=max(ans,max(-prices[index]+solve(index+1,prices,1),solve(index+1,prices,0)));
+    }
+    else{
+        ans=max({ans,prices[index]+solve(index+1,prices,0),solve(index+1,prices,1)});
+    }
+    return dp[index][buy]=ans;
+}
+    int maxProfit(vector<int>& prices) {
+        memset(dp,-1,sizeof(dp));
+        return solve(0,prices,0);
+    }
+};
