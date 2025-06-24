@@ -13,30 +13,23 @@ public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
         ListNode* dummy=new ListNode(-1);
         ListNode* temp=dummy;
-        ListNode* t1=list1;
-        ListNode* t2=list2;
-        while(t1!=nullptr&&t2!=nullptr){
-            if(t1->val<t2->val){
-                temp->next=t1;
+        while(list1!=nullptr&&list2!=nullptr){
+            if(list1->val<list2->val){
+                temp->next=list1;
                 temp=temp->next;
-                t1=t1->next;
+                list1=list1->next;
             }
             else{
-                temp->next=t2;
+                temp->next=list2;
                 temp=temp->next;
-                t2=t2->next;
+                list2=list2->next;
             }
-
         }
-        while(t1!=nullptr){
-            temp->next=t1;
-            temp=temp->next;
-            t1=t1->next;
+        if(list2!=nullptr){
+            temp->next=list2;
         }
-        while(t2!=nullptr){
-            temp->next=t2;
-            temp=temp->next;
-            t2=t2->next;
+        if(list1!=nullptr){
+            temp->next=list1;
         }
         return dummy->next;
     }
