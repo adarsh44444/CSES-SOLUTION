@@ -1,27 +1,25 @@
 class Solution {
 public:
     string frequencySort(string s) {
-        unordered_map<char,int> mp;
-        for(auto it:s){
-            mp[it]++;
+        unordered_map<char, int> freq;
+        for (char c : s) {
+            freq[c]++;
         }
-        vector<pair<int,char>> vec;
-        for(auto it:mp){
-            vec.push_back({it.second,it.first});
+
+        int n = s.size();
+        // bucket[i] contains characters that appear i times
+        vector<vector<char>> bucket(n + 1);
+        for (auto &[ch, count] : freq) {
+            bucket[count].push_back(ch);
         }
-        sort(vec.begin(),vec.end(),[](const pair<int,char> &a,const pair<int,char> &b){
-            if(a.first==b.first) return a.second<b.second;
-            return a.first>b.first;
-        });
-        string ans="";
-        int n=vec.size();
-        for(int i=0;i<n;i++){
-            int cnt=vec[i].first;
-            char ch=vec[i].second;
-            for(int j=0;j<cnt;j++){
-                ans+=ch;
+
+        string ans = "";
+        for (int i = n; i > 0; --i) {
+            for (char ch : bucket[i]) {
+                ans.append(i, ch);  // append character i times
             }
         }
+
         return ans;
     }
 };
