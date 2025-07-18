@@ -11,41 +11,41 @@
 class Solution {
 public:
 ListNode* middle(ListNode* head){
-    ListNode* fast=head;
     ListNode* slow=head;
+    ListNode* fast=head;
     fast=fast->next;
     while(fast!=nullptr&&fast->next!=nullptr){
-        fast=fast->next->next;
         slow=slow->next;
+        fast=fast->next->next;
     }
     return slow;
 }
-ListNode* mergesort(ListNode* l1,ListNode* l2){
+ListNode* merge(ListNode* t1,ListNode* t2){
     ListNode* dummy=new ListNode(-1);
-    ListNode* temp=dummy;
-    while(l1!=nullptr&&l2!=nullptr){
-        if(l1->val<l2->val){
-            temp->next=l1;
-            temp=temp->next;
-            l1=l1->next;
+    ListNode* dummyhead=dummy;
+    while(t1!=nullptr&&t2!=nullptr){
+        if(t1->val<t2->val){
+            dummy->next=t1;
+            dummy=dummy->next;
+            t1=t1->next;
         }
         else{
-            temp->next=l2;
-            temp=temp->next;
-            l2=l2->next;
+            dummy->next=t2;
+            dummy=dummy->next;
+            t2=t2->next;
         }
     }
-    if(l1) temp->next=l1;
-    if(l2) temp->next=l2;
-    return dummy->next;
+    if(t1) dummy->next=t1;
+    if(t2) dummy->next=t2;
+    return dummyhead->next;
 }
     ListNode* sortList(ListNode* head) {
         if(head==nullptr||head->next==nullptr) return head;
-        ListNode* mid=middle(head);
-        ListNode* right=mid->next;
-        mid->next=nullptr;
+        ListNode *t1=middle(head);
+        ListNode* t2=t1->next;
+        t1->next=nullptr;
         ListNode* left=sortList(head);
-        ListNode* rightt=sortList(right);
-        return mergesort(left,rightt);
+        ListNode* right=sortList(t2);
+        return merge(left,right);
     }
 };
