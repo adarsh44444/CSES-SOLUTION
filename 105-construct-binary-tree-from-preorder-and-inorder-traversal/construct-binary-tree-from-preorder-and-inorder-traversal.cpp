@@ -1,25 +1,32 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
 class Solution {
 public:
-    TreeNode* solve(unordered_map<int, int> &mp, int &preindex, vector<int> &preorder, int left, int right) {
-        if (left > right) return nullptr;
+TreeNode* solve(int left,int right,int &idx,vector<int>&preorder,vector<int>& inorder,unordered_map<int,int> &mp){
+    if(left>right) return nullptr;
+    int val=preorder[idx++];
+    int idxx=mp[val];
+    TreeNode* root=new TreeNode(val);
+    root->left=solve(left,idxx-1,idx,preorder,inorder,mp);
+    root->right=solve(idxx+1,right,idx,preorder,inorder,mp);
+    return root;
 
-        int val = preorder[preindex++];
-        TreeNode* root = new TreeNode(val);
-
-        int idx = mp[val];
-
-        root->left = solve(mp, preindex, preorder, left, idx - 1);
-        root->right = solve(mp, preindex, preorder, idx + 1, right);
-
-        return root;
-    }
-
+}
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        unordered_map<int, int> mp;
-        for (int i = 0; i < inorder.size(); i++) {
-            mp[inorder[i]] = i;
+        unordered_map<int,int> mp;
+        for(int i=0;i<inorder.size();i++){
+            mp[inorder[i]]=i;
         }
-        int preindex = 0;
-        return solve(mp, preindex, preorder, 0, preorder.size() - 1);
+        int idx=0;
+        return solve(0,preorder.size()-1,idx,preorder,inorder,mp);
     }
 };
