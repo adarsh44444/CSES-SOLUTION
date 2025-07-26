@@ -17,7 +17,7 @@ TreeNode* second=nullptr;
 void inorder(TreeNode* root){
     if(root==nullptr) return;
     inorder(root->left);
-    if(prev&&prev->val>root->val){
+    if(prev!=nullptr&&prev->val>root->val){
         if(!first) first=prev;
         second=root;
     }
@@ -25,7 +25,7 @@ void inorder(TreeNode* root){
     inorder(root->right);
 }
     void recoverTree(TreeNode* root) {
-        inorder(root);
-        if(first&&second) swap(first->val,second->val);
+       inorder(root);
+       if(first&&second) swap(first->val,second->val); 
     }
 };
