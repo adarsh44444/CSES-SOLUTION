@@ -1,41 +1,20 @@
 class Solution {
 public:
-#define ll long long
     int candy(vector<int>& ratings) {
-        ll sum = 1;
-        ll i = 1;
-        ll n = ratings.size();
-
-        while (i < n) {
-            // Equal ratings
-            while (i < n && ratings[i] == ratings[i - 1]) {
-                sum += 1;
-                i++;
-            }
-
-            // Increasing slope
-            ll peak = 1;
-            while (i < n && ratings[i] > ratings[i - 1]) {
-                peak += 1;
-                sum += peak;
-                i++;
-            }
-
-            // Decreasing slope
-            ll down = 0;
-            ll temp = 1;
-            while (i < n && ratings[i] < ratings[i - 1]) {
-                down += 1;
-                sum += down;
-                i++;
-            }
-
-            // Adjust for peak if needed
-            if (down >= peak) {
-                sum += (down - peak + 1);
-            }
+        int n=ratings.size();
+        vector<int> left(n,0);
+        left[0]=1;
+        for(int i=1;i<n;i++){
+            if(ratings[i]>ratings[i-1]) left[i]=1+left[i-1];
+            else left[i]=1;
         }
-
-        return sum;
+        int ans=0;
+        for(int i=n-2;i>=0;i--){
+            if(ratings[i]>ratings[i+1]) left[i]=max(left[i],1+left[i+1]);
+            else left[i]=max(left[i],1);
+            ans+=left[i];
+        }
+        ans+=left[n-1];
+        return ans;
     }
 };
