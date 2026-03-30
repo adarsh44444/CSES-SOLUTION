@@ -1,10 +1,6 @@
 class Solution {
 public:
     bool checkStrings(string s1, string s2) {
-        string temp1=s1,temp2=s2;
-        sort(temp1.begin(),temp1.end());
-        sort(temp2.begin(),temp2.end());
-        if(temp1!=temp2) return false;
         string odd1="",odd2="",even1="",even2="";
         for(int i=0;i<s1.size();i++){
             if(i%2==0){
