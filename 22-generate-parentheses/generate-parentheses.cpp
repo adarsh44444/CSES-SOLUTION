@@ -1,20 +1,30 @@
 class Solution {
 public:
-void solve(vector<string> &ans,string s,int open,int close,int max){
-    if(s.size()==2*max){
-        ans.push_back(s);
+vector<string> ans;
+void solve(int idx,int o,int c,string &temp,int n){
+    if(idx==2*n){
+        ans.push_back(temp);
         return;
     }
-    if(open<max){
-        solve(ans,s+'(',open+1,close,max);
+    if(c==o){
+        temp+='(';
+        solve(idx+1,o-1,c,temp,n);
     }
-    if(close<open){
-        solve(ans,s+')',open,close+1,max);
+    else{
+        if(c>o&&c>0){
+            string prev=temp;
+            temp+=')';
+            solve(idx+1,o,c-1,temp,n);
+            if(o>0) {
+                prev+='(';
+                solve(idx+1,o-1,c,prev,n);
+            }
+        }
     }
 }
     vector<string> generateParenthesis(int n) {
-        vector<string> ans;
-        solve(ans,"",0,0,n);
+        string temp="";
+        solve(0,n,n,temp,n);
         return ans;
     }
 };
