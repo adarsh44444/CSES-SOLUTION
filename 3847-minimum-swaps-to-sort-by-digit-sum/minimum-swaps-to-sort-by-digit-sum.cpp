@@ -1,45 +1,43 @@
 class Solution {
 public:
-#define ll long long
     int minSwaps(vector<int>& nums) {
-        int n=nums.size();
-        priority_queue<pair<ll,ll>,vector<pair<ll,ll>>,greater<pair<ll,ll>>> pq;
-        for(auto it:nums){
-            ll num=it;
-            ll sum=0;
-            while(num!=0){
-                sum+=num%10;
-                num/=10;
-            }
-            pq.push({sum,it});
-        }
         vector<int> temp;
-        while(!pq.empty()){
-            int num=pq.top().second;
-            pq.pop();
-            temp.push_back(num);
+        unordered_map<int,int> mp;
+        int cnt=0;
+        for(auto it:nums){
+            mp[it]=cnt++;
+            temp.push_back(it);
         }
-        unordered_map<int,int> toidx;
-        vector<int> target(n);
-        vector<bool> visited(n,false);
-        for(int i=0;i<n;i++){
-            toidx[temp[i]]=i;
-        }
-        for(int i=0;i<n;i++){
-            target[i]=toidx[nums[i]];
-        }
-        int cycles=0;
-        for(int i=0;i<n;i++){
-            if(visited[i]||target[i]==i) continue;
-            int cycless=0;
-            int j=i;
-            while(!visited[j]){
-                visited[j]=true;
-                j=target[j];
-                cycless++;
+        sort(temp.begin(), temp.end(), [](int a, int b) {
+    int num1 = a, num2 = b;
+    int digit_sum1 = 0, digit_sum2 = 0;
+
+    while (num1 != 0) {
+        digit_sum1 += num1 % 10;
+        num1 /= 10;
+    }
+
+    while (num2 != 0) {
+        digit_sum2 += num2 % 10;
+        num2 /= 10;
+    }
+
+    if (digit_sum1 != digit_sum2)
+        return digit_sum1 < digit_sum2;
+
+    return a < b;
+});
+        int ans=0;
+        for(int i=0;i<nums.size();i++){
+            if(nums[i]!=temp[i]){
+                ans++;
+                int act_idx=mp[temp[i]];
+                int t=nums[i];
+                nums[act_idx]=t;
+                mp[t]=act_idx;
+                mp[temp[i]]=i;
             }
-            cycles+=cycless-1;
         }
-        return cycles;
+        return ans;
     }
 };
